@@ -1,16 +1,17 @@
-class Flatten:
-    def __init__(self):
-        self.empty_list = []
+def flatten(original_list):
+    planish = []
 
-    def set_flatten_list(self, x):
-        if isinstance(x, list) == False:
-            return "Must be a list"
+    if isinstance(original_list, list) == False:
+        raise Exception("Must be a list!")
 
-        for a in x:
-            if isinstance(a, list):
-                self.set_flatten_list(a)
-            else:
-                self.empty_list.append(a)
+    for element in original_list:
+        if isinstance(element, str) or element is None or isinstance(element, float):
+            raise Exception("All elements in the list must be integers!")
 
-    def get_flatten_list(self):
-        return self.empty_list
+        if isinstance(element, list):
+            planish.extend(flatten(element))
+        else:
+            planish.append(element)
+
+    return planish
+

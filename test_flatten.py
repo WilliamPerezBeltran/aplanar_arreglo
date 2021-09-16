@@ -1,51 +1,38 @@
 import unittest
-from exercise import Flatten
-
+from exercise import flatten
 
 class TestFlatten(unittest.TestCase):
-    def test_1(self):
-        flatten_1 = Flatten()
-        flatten_1.set_flatten_list([1, [2, [3, [4, 5]]]])
-        self.assertEqual(flatten_1.get_flatten_list(), [1, 2, 3, 4, 5])
+    def test_string_as_entry(self):
+        with self.assertRaises(Exception):
+            flatten("bla")
 
-    def test_2(self):
-        flatten_2 = Flatten()
-        flatten_2.set_flatten_list([1, 2, 3, 4])
-        self.assertEqual(flatten_2.get_flatten_list(), [1, 2, 3, 4])
+    def test_int_as_entry(self):
+        with self.assertRaises(Exception):
+            flatten(1)
 
-    def test_3(self):
-        flatten_3 = Flatten()
-        flatten_3.set_flatten_list([1, [2, 34, 2, 3, [3, [4, 5]]]])
-        self.assertEqual(flatten_3.get_flatten_list(), [1, 2, 34, 2, 3, 3, 4, 5])
+    def test_empty_list(self):
+        self.assertEqual(flatten([]), [])
 
-    def test_4(self):
-        flatten_4 = Flatten()
-        flatten_4.set_flatten_list([1, [2, 34, 2, 3, [3, [4, 5]]]])
-        self.assertEqual(flatten_4.get_flatten_list(), [1, 2, 34, 2, 3, 3, 4, 5])
+    def test_integers_list(self):
+        self.assertEqual(flatten([1,2,3,4,5,6]), [1,2,3,4,5,6])
 
-    def test_5(self):
-        flatten_5 = Flatten()
-        flatten_5.set_flatten_list([1, 2])
-        self.assertEqual(flatten_5.get_flatten_list(), [1, 2])
+    def test_nested_list_of_int(self):
+        self.assertEqual(flatten([1, [2, 34, 2, 3, [3, [4, 5]]]]), [1,2,34,2,3,3,4,5])
 
-    def test_6(self):
-        flatten_6 = Flatten()
-        flatten_6.set_flatten_list([1, 2, [9, 8, 7, 5]])
-        self.assertEqual(flatten_6.get_flatten_list(), [1, 2, 9, 8, 7, 5])
+    def test_string_int_list(self):
+        with self.assertRaises(Exception):
+            flatten([1, "bla"])
 
-    def test_7(self):
-        flatten_7 = Flatten()
-        flatten_7.set_flatten_list([])
-        self.assertEqual(flatten_7.get_flatten_list(), [])
+    def test_None_int_list(self):
+        with self.assertRaises(Exception):
+            flatten([1,2,3,4,5,None])
 
-    def test_8(self):
-        flatten_8 = Flatten()
-        self.assertEqual(flatten_8.set_flatten_list(23), "Must be a list")
+    def test_float_int_list(self):
+        with self.assertRaises(Exception):
+            flatten([1, [2, 34.85, 2, 3, [3, [4, 50.25]]]])
 
-    def test_9(self):
-        flatten_9 = Flatten()
-        self.assertEqual(flatten_9.set_flatten_list("string"), "Must be a list")
+    def test_a_None_in_nested_list(self):
+        with self.assertRaises(Exception):
+            flatten([1, [2, 34, 2, 3, [3, [None, 5]]]])
 
-    def test_10(self):
-        flatten_10 = Flatten()
-        self.assertEqual(flatten_10.set_flatten_list("c"), "Must be a list")
+
